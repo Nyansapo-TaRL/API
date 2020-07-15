@@ -1,5 +1,6 @@
 {
     "env": {
-        "MONGO_ATLAST_PW" : "nyansapoai"
+        "MONGO_ATLAST_PW" : "nyansapoai",
+        "JWT_KEY": "nyansapoai"
     }
 }

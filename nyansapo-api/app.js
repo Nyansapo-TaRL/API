@@ -11,6 +11,8 @@ const mongoose =  require('mongoose');
 const studentRoutes = require('./api/routes/student');
 const instructorRoutes = require('./api/routes/instructor');
 const assessmentRoutes = require('./api/routes/assessment');
+const attendace = require('./api/routes/attendance');
+const group = require('./api/routes/group');
 
 // connect to database
 mongoose.connect('mongodb+srv://nyansapoai:nyansapoai@nyansapo-db.fhbbk.azure.mongodb.net/<dbname>?retryWrites=true&w=majority'),{
@@ -42,6 +44,9 @@ app.use((req, res, next)=>{
 app.use('/instructor', instructorRoutes);
 app.use('/student', studentRoutes);
 app.use('/assessment',assessmentRoutes);
+app.use('/attendance',attendace);
+app.use('/group',group);
+
 
 // handles error 
 app.use((req, res, next) => {
