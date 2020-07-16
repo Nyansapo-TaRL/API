@@ -25,7 +25,37 @@ router.get('/', checkAuth, (req, res, next) => {
 });
 
 // POST: register an student
-router.post('/signup', checkAuth, (req, res, next) => {
+router.post('/', checkAuth, (req, res, next) => {
+
+    // create an student object with the instructor model and request info
+    const student = new Student({
+        _id: new mongoose.Types.ObjectId(),
+        instructor_id: req.body.instructor_id, 
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
+        age: req.body.age,
+        gender: req.body.gender,
+        notes: req.body.notes,
+        created_timestamp: req.body.created_timestamp,
+        lastmod_timestamp: req.body.lastmod_timestamp,
+        learning_level: req.body.learning_level
+    }); 
+
+    // save the instructor object into database
+    student.save().then( result => {
+        console.log("Saved to Database",result);
+
+            // return a response 
+        res.status(200).json({
+            message: 'Student successfully saved',
+            createdProduct : result
+        });
+    }).catch(err => {
+        console.log(err);
+        res.status(500).json({
+            error: err
+        })
+    });
    
 });
 

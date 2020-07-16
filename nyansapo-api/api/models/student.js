@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const studentShema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId, // student id
     instructor_id: {type: mongoose.Schema.Types.ObjectId, ref: 'Instructor'}, // instuctor object id of creator
-    group_id: {type:mongoose.Schema.Types.ObjectId, ref:'Group'},
     firstname: {type: String, require:true}, //first name of student
     lastname: {type: String, require:true}, // last name of student
     age: {type: Number, require:true}, // age of student

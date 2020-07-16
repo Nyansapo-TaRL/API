@@ -13,6 +13,7 @@ const instructorRoutes = require('./api/routes/instructor');
 const assessmentRoutes = require('./api/routes/assessment');
 const attendace = require('./api/routes/attendance');
 const group = require('./api/routes/group');
+const speech_to_text = require('./api/routes/speech_to_text');
 
 // connect to database
 mongoose.connect('mongodb+srv://nyansapoai:nyansapoai@nyansapo-db.fhbbk.azure.mongodb.net/<dbname>?retryWrites=true&w=majority'),{
@@ -46,6 +47,7 @@ app.use('/student', studentRoutes);
 app.use('/assessment',assessmentRoutes);
 app.use('/attendance',attendace);
 app.use('/group',group);
+app.use('/speech_to_text', speech_to_text);
 
 
 // handles error 
