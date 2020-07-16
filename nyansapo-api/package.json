@@ -27,6 +27,7 @@
     "microsoft-cognitiveservices-speech-sdk": "^1.12.1",
     "mongoose": "^5.9.23",
     "morgan": "^1.10.0",
+    "node-audiorecorder": "^2.2.0",
     "password-hash": "^1.2.2"
   },
   "devDependencies": {

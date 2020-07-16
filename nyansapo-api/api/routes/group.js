@@ -3,7 +3,7 @@ const router = express.Router(); // initialize router
 const mongoose = require('mongoose'); // import mongoose for database
 
 // import data base models
-const Product = require('../models/group');
+const group = require('../models/group');
 const { restart } = require('nodemon');
 const { json } = require('body-parser');
 
@@ -18,17 +18,17 @@ router.post('/', (req, res, next) => {
 });
 
 // GET a specific student by student ID
-router.get('/:intructorId', (req, res, next) =>{
+router.get('/:groupId', (req, res, next) =>{
 
 });
 
 // PATCH: update student info
-router.patch('/:productId', (req, res, next) =>{
+router.patch('/:groupId', (req, res, next) =>{
 
 });
 
 // DELETE: remove a student 
-router.delete('/:productId', (req, res, next) =>{
+router.delete('/:groupId', (req, res, next) =>{
 
 });
 

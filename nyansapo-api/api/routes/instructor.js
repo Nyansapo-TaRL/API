@@ -76,7 +76,7 @@ router.post('/signup', (req, res, next) => {
 });
 
 // POST: sign in or login
-router.post('/signin', (req, res, next) => {
+router.get('/signin', (req, res, next) => {
     Instructor.find({email: req.body.email}) // check to see if user is in database with email
     .exec()
     .then(user => {
@@ -146,7 +146,7 @@ router.patch('/:instructorId', checkAuth, (req, res, next) =>{
     const id = req.params.instructorId; // get the id
 
     const updateOps = {};  // get all params that need to be updated
-    for (const ops of req.body){
+    for (const ops of req.body.updates){
         if (ops.propName === "password"){ // if password needs update hash it
             hashpassword = passwordHash.generate(ops.value); // hash password
             updateOps[ops.propName] = hashpassword;

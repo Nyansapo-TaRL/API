@@ -3,32 +3,44 @@ const router = express.Router(); // initialize router
 const mongoose = require('mongoose'); // import mongoose for database
 
 // import data base models
-const Product = require('../models/student');
+const Student = require('../models/student');
 const { restart } = require('nodemon');
 const { json } = require('body-parser');
+const checkAuth = require('../middleware/check-auth');
 
 // GET all students in database 
-router.get('/', (req, res, next) => {
-
+router.get('/', checkAuth, (req, res, next) => {
+    Student.find()
+    .exec()
+    .then(docs => {
+        console.log(docs);
+        res.status(200).json(docs) // return all docs
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json({
+            error: err
+        });
+    });
 });
 
 // POST: register an student
-router.post('/', (req, res, next) => {
+router.post('/signup', checkAuth, (req, res, next) => {
    
 });
 
 // GET a specific student by student ID
-router.get('/:intructorId', (req, res, next) =>{
+router.get('/:studentId', checkAuth, (req, res, next) =>{
 
 });
 
 // PATCH: update student info
-router.patch('/:productId', (req, res, next) =>{
+router.patch('/:studentId', checkAuth, (req, res, next) =>{
 
 });
 
 // DELETE: remove a student 
-router.delete('/:productId', (req, res, next) =>{
+router.delete('/:studentId', checkAuth, (req, res, next) =>{
 
 });
 

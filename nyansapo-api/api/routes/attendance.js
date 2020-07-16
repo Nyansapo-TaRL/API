@@ -3,11 +3,11 @@ const router = express.Router(); // initialize router
 const mongoose = require('mongoose'); // import mongoose for database
 
 // import data base models
-const Product = require('../models/attendance');
+const attendance = require('../models/attendance');
 const { restart } = require('nodemon');
 const { json } = require('body-parser');
 
-// GET all students in database 
+// GET all attendance in database 
 router.get('/', (req, res, next) => {
 
 });
