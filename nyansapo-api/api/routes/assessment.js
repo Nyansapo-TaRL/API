@@ -32,7 +32,6 @@ router.post('/', (req, res, next) => {
     const assessment = new Assessment({
         _id: new mongoose.Types.ObjectId(),
         student_id : req.body.student_id,
-        timestamp: req.body.timestamp,
         learning_level: req.body.learning_level,
         assessment_key: req.body.assessment_key,
         letters_correct: req.body.letters_correct,

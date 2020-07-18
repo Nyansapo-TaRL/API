@@ -6,7 +6,7 @@ const instructorShema = mongoose.Schema({
     lastname: {type: String, require:true},
     email: {type: String, require:true},
     password: {type: String, require:true},
-    timestamp: {type: String, require:true} // format YYYY-MM-DD hh:mm:ss
+    timestamp: { type: Date, default: Date.now } 
 });
 
 module.exports = mongoose.model('Instructor', instructorShema);

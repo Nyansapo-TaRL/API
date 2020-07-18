@@ -36,8 +36,6 @@ router.post('/', checkAuth, (req, res, next) => {
         age: req.body.age,
         gender: req.body.gender,
         notes: req.body.notes,
-        created_timestamp: req.body.created_timestamp,
-        lastmod_timestamp: req.body.lastmod_timestamp,
         learning_level: req.body.learning_level
     }); 
 
@@ -57,6 +55,11 @@ router.post('/', checkAuth, (req, res, next) => {
         })
     });
    
+});
+
+// GET a specific instructors students by student ID
+router.get('/instructor/:instructorId', checkAuth, (req, res, next) =>{
+
 });
 
 // GET a specific student by student ID

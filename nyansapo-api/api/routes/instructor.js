@@ -57,8 +57,7 @@ router.post('/signup', (req, res, next) => {
             firstname: req.body.firstname,
             lastname: req.body.lastname,
             email: req.body.email,
-            password: hashpassword, 
-            timestamp: req.body.timestamp
+            password: hashpassword
         }); 
     
         // save the instructor object into database
