@@ -17,7 +17,7 @@ router.post('/', (req, res, next) => {
       const subscriptionKey = "1c58abdab5d74d5fa41ec8b0b4a62367";
       const serviceRegion = "eastus"; 
       const endpoint = "275310be-2c21-4131-9609-22733b4e0c04";
-      var filename = "nyansapo.wav"; // 16000 Hz, Mono
+      var filename = "speech_files/speech_001_2.wav"; // 16000 Hz, Mono
 
       // create the push stream we need for the speech sdk.
       var pushStream = sdk.AudioInputStream.createPushStream();
@@ -56,7 +56,7 @@ router.post('/', (req, res, next) => {
           recognizer.close();
           recognizer = undefined;
 
-          res.status(200).json(result); // return response
+          res.status(200).json(result.privText); // return response
         },
         function (err) {
           console.log("cant")
