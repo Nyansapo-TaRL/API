@@ -3,21 +3,35 @@ const fs = require("fs");
 const express = require('express');
 const router = express.Router(); // initialize router
 const mongoose = require('mongoose'); // import mongoose for database
+const multer = require('multer');
+const { RawWebsocketMessage } = require("microsoft-cognitiveservices-speech-sdk/distrib/lib/src/common/Exports");
 
 
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/')
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '.wav') //Appending .jpg
+  }
+})
+
+const upload = multer({storage : storage});
 
    // GET all students in database 
-router.get('/', (req, res, next) => {
+router.get('/',(req, res, next) => {
 
 });
 
 // POST: register an student
-router.post('/', (req, res, next) => {
+router.post('/', upload.single('audio'),(req, res, next) => {
+
+  console.log(req.file);
   try{
       const subscriptionKey = "1c58abdab5d74d5fa41ec8b0b4a62367";
       const serviceRegion = "eastus"; 
       const endpoint = "275310be-2c21-4131-9609-22733b4e0c04";
-      var filename = "speech_files/speech_001_2.wav"; // 16000 Hz, Mono
+      var filename = req.file.path; // 16000 Hz, Mono
 
       // create the push stream we need for the speech sdk.
       var pushStream = sdk.AudioInputStream.createPushStream();

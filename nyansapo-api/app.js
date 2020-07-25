@@ -47,7 +47,7 @@ app.use('/student', studentRoutes);
 app.use('/assessment',assessmentRoutes);
 app.use('/attendance',attendace);
 app.use('/group',group);
-app.use('/speech_to_text', speech_to_text);
+app.use('/transcribe', speech_to_text);
 
 
 // handles error 
