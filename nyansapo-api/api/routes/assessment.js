@@ -41,7 +41,9 @@ router.post('/', (req, res, next) => {
         paragrahp_words_wrong: req.body.paragrahp_words_wrong,
         story_ans_q1: req.body.story_ans_q1,
         story_ans_q2: req.body.story_ans_q2
+
     });
+
 
     // save the assessment object into database
     assessment.save().then( result => {
@@ -49,8 +51,7 @@ router.post('/', (req, res, next) => {
 
             // return a response 
         res.status(200).json({
-            message: ' Assessment successfully saved',
-            createdProduct : result
+            "id": assessment._id
         });
     }).catch(err => {
         console.log(err);

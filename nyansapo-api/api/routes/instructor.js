@@ -66,8 +66,7 @@ router.post('/signup', (req, res, next) => {
     
              // return a response 
             res.status(200).json({
-                message: ' Instructor successfully saved',
-                createdProduct : result
+                "id": instructor._id
             });
         }).catch(err => {
             console.log(err);
@@ -102,7 +101,6 @@ router.get('/signin', (req, res, next) => {
                     expiresIn:"1h"
                 });
             return res.status(200).json({
-                message: "Authentification Successful", 
                 token: token // send token
             })
         }else{
@@ -118,6 +116,46 @@ router.get('/signin', (req, res, next) => {
         });
     });
 });
+
+router.post('/signin', (req, res, next) => {
+    Instructor.find({email: req.body.email}) // check to see if user is in database with email
+    .exec()
+    .then(user => {
+        if (user.length <1){ // if email not in database return Auth fail
+            return res.status(401).json({
+                message: 'Authentification failed'
+            });
+        }
+
+        // check the password to authenticate user 
+        if (passwordHash.verify(req.body.password , user[0].password)){ // if hashed password is verified as true
+            const token = jwt.sign({
+                email: user[0].email,
+                userId: user[0]._id
+                }, 
+                "nyansapoai",
+                {
+                    expiresIn:"1m"
+                });
+            return res.status(200).json({
+                //token: token // send token
+                id : user[0]._id
+            })
+        }else{
+            return res.status(401).json({ // password doesn't macth 
+                message: 'Authentification failed'
+            });
+        }
+    }) 
+    .catch(err => {
+        console.log(err);
+        res.status(500).json({
+            error : err
+        });
+    });
+});
+
+
 
 // GET a specific intructor by intructor ID
 router.get('/:instructorId', checkAuth, (req, res, next) =>{

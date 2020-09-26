@@ -5,6 +5,7 @@ const router = express.Router(); // initialize router
 const mongoose = require('mongoose'); // import mongoose for database
 const multer = require('multer');
 const { RawWebsocketMessage } = require("microsoft-cognitiveservices-speech-sdk/distrib/lib/src/common/Exports");
+const { AudioInputStream } = require("microsoft-cognitiveservices-speech-sdk");
 
 
 var storage = multer.diskStorage({
@@ -12,7 +13,7 @@ var storage = multer.diskStorage({
     cb(null, 'uploads/')
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + '.wav') //Appending .jpg
+    cb(null, file.originalname) //Appending .jpg
   }
 })
 
@@ -26,13 +27,17 @@ router.get('/',(req, res, next) => {
 // POST: register an student
 router.post('/', upload.single('audio'),(req, res, next) => {
 
-  console.log(req.file);
+/*  console.log(req.file);
+  res.status(200).json({
+    message: "saved"
+  }); */
+  
   try{
       const subscriptionKey = "1c58abdab5d74d5fa41ec8b0b4a62367";
       const serviceRegion = "eastus"; 
       const endpoint = "275310be-2c21-4131-9609-22733b4e0c04";
-      var filename = req.file.path; // 16000 Hz, Mono
-
+      var filename = "uploads/"+req.file.originalname; // 16000 Hz, Mono
+      //var filename = "uploads/Paragraph_013_3.wav";
       // create the push stream we need for the speech sdk.
       var pushStream = sdk.AudioInputStream.createPushStream();
         
@@ -64,6 +69,7 @@ router.post('/', upload.single('audio'),(req, res, next) => {
       console.log("Now recognizing from: " + filename);
         
       // start the recognizer and wait for a result.
+      /*
       recognizer.recognizeOnceAsync(
         function (result) {
           console.log(result);
@@ -78,10 +84,48 @@ router.post('/', upload.single('audio'),(req, res, next) => {
       
           recognizer.close();
           recognizer = undefined;
-        });
+        }); */
+
+
+
+      recognizer.recognizing = (s, e) => {
+          console.log(`RECOGNIZING: Text=${e.result.text}`);
+      };
+      
+
+      recognizer.recognized = (s, e) => {
+          if (e.result.reason == ResultReason.RecognizedSpeech) {
+              console.log(`RECOGNIZED: Text=${e.result.text}`);
+              res.status(200).json(e.result.text); 
+          }
+          else if (e.result.reason == ResultReason.NoMatch) {
+              console.log("NOMATCH: Speech could not be recognized.");
+          }
+      };
+      
+      recognizer.canceled = (s, e) => {
+          console.log(`CANCELED: Reason=${e.reason}`);
+      
+          if (e.reason == CancellationReason.Error) {
+              console.log(`"CANCELED: ErrorCode=${e.errorCode}`);
+              console.log(`"CANCELED: ErrorDetails=${e.errorDetails}`);
+              console.log("CANCELED: Did you update the subscription info?");
+          }
+          res.status(200).json(error);
+          recognizer.stopContinuousRecognitionAsync();
+      };
+      
+      recognizer.sessionStopped = (s, e) => {
+          console.log("\n    Session stopped event.");
+          recognizer.stopContinuousRecognitionAsync();
+          res.status(500).json(e);
+      };
+
     } catch (error) {
         res.status(500).json(error);
     }
+
+    recognizer.startContinuousRecognitionAsync();
 
    
 });
