@@ -58,8 +58,8 @@ router.post('/register',  (req, res, next) => {
 });
 
 // GET all students of an instructor 
-router.get('/:instructorid', checkAuth, (req, res, next) =>{
-    Student.find({instructor_id: req.params.instructorId })
+router.get('/ofInstructor', checkAuth, (req, res, next) =>{
+    Student.find({instructor_id: req.body.instructor_id })
     .exec()
     .then(docs => {
         console.log(docs);
@@ -71,6 +71,7 @@ router.get('/:instructorid', checkAuth, (req, res, next) =>{
             error: err
         });
     });
+
 });
 
 // GET a specific student by student ID

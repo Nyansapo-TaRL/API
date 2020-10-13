@@ -38,6 +38,35 @@ router.post('/signup', (req, res, next) => {
                 return res.status(422).json({
                     message: "Email exist"
                 });
+            }else{
+
+                // hash password
+                hashpassword = passwordHash.generate(req.body.password); 
+
+                // create an instructor object with the instructor model and request info
+                const instructor = new Instructor({
+                    _id: new mongoose.Types.ObjectId(),
+                    firstname: req.body.firstname,
+                    lastname: req.body.lastname,
+                    email: req.body.email,
+                    password: hashpassword
+                }); 
+
+                // save the instructor object into database
+                instructor.save().then( result => {
+                    console.log("Saved to Database",result);
+
+                        // return a response 
+                    res.status(200).json({
+                        "id": instructor._id
+                    });
+                }).catch(err => {
+                    console.log(err);
+                    res.status(500).json({
+                        error: err
+                    })
+                });
+                
             }
         })
         .catch(err => {
@@ -48,32 +77,7 @@ router.post('/signup', (req, res, next) => {
         });
         
         
-        // hash password
-        hashpassword = passwordHash.generate(req.body.password); 
 
-        // create an instructor object with the instructor model and request info
-        const instructor = new Instructor({
-            _id: new mongoose.Types.ObjectId(),
-            firstname: req.body.firstname,
-            lastname: req.body.lastname,
-            email: req.body.email,
-            password: hashpassword
-        }); 
-    
-        // save the instructor object into database
-        instructor.save().then( result => {
-            console.log("Saved to Database",result);
-    
-             // return a response 
-            res.status(200).json({
-                "id": instructor._id
-            });
-        }).catch(err => {
-            console.log(err);
-            res.status(500).json({
-                error: err
-            })
-        });
     
    
 });
@@ -181,6 +185,42 @@ router.get('/:instructorId', checkAuth, (req, res, next) =>{
     });
 
 });
+
+
+// GET all students of an instructor 
+router.get('/ofemail/:email', (req, res, next) =>{
+    Instructor.find({email: req.params.email })
+    .exec()
+    .then(docs => {
+        console.log(docs);
+        res.status(200).json(docs) // return all docs
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json({
+            error: err
+        });
+    });
+});
+
+
+// GET all students of an instructor 
+router.get('/offirstname/:firstname', (req, res, next) =>{
+    Instructor.find({firstname: req.params.firstname })
+    .exec()
+    .then(docs => {
+        console.log(docs);
+        res.status(200).json(docs) // return all docs
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json({
+            error: err
+        });
+    });
+});
+
+
 
 // PATCH: update intructor info
 router.patch('/:instructorId', checkAuth, (req, res, next) =>{
