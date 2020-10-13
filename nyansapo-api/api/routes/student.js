@@ -58,7 +58,26 @@ router.post('/register',  (req, res, next) => {
 });
 
 // GET all students of an instructor 
-router.get('/ofInstructor', checkAuth, (req, res, next) =>{
+router.post('/ofInstructor', (req, res, next) =>{
+    Student.find({instructor_id: req.body.instructor_id })
+    .exec()
+    .then(docs => {
+        console.log(docs);
+        res.status(200).json({
+            data : docs
+        }); // return all docs
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json({
+            error: err
+        });
+    });
+
+});
+
+// GET all students of an instructor 
+router.get('/ofInstructor', (req, res, next) =>{
     Student.find({instructor_id: req.body.instructor_id })
     .exec()
     .then(docs => {
