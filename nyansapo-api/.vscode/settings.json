@@ -3,5 +3,6 @@
         "node_modules{,/**}",
         ".vscode{,/**}"
     ],
-    "appService.deploySubpath": "."
+    "appService.deploySubpath": ".",
+    "appService.defaultWebAppToDeploy": "/subscriptions/efaefbe4-bc1e-4c85-a8fc-c5c6c331f2e2/resourceGroups/NyansapoResourceGroup/providers/Microsoft.Web/sites/nyansapoai-api"
 }

@@ -36,7 +36,7 @@ router.post('/signup', (req, res, next) => {
         .then(user => {
             if(user.length >=1 ){ // if there is a user with email
                 return res.status(422).json({
-                    message: "Email exist"
+                    message: "Email already exist in databse"
                 });
             }else{
 
@@ -89,7 +89,7 @@ router.get('/signin', (req, res, next) => {
     .then(user => {
         if (user.length <1){ // if email not in database return Auth fail
             return res.status(401).json({
-                message: 'Authentification failed'
+                message: 'Email is not registered, please Sign Up'
             });
         }
 
@@ -109,7 +109,7 @@ router.get('/signin', (req, res, next) => {
             })
         }else{
             return res.status(401).json({ // password doesn't macth 
-                message: 'Authentification failed'
+                message: 'Incorrect Password, please try again'
             });
         }
     }) 
@@ -127,7 +127,7 @@ router.post('/signin', (req, res, next) => {
     .then(user => {
         if (user.length <1){ // if email not in database return Auth fail
             return res.status(401).json({
-                message: 'Authentification failed'
+                message: 'Email is not registered, please Sign Up'
             });
         }
 
@@ -147,7 +147,7 @@ router.post('/signin', (req, res, next) => {
             })
         }else{
             return res.status(401).json({ // password doesn't macth 
-                message: 'Authentification failed'
+            message: 'Incorrect Password, please try again'
             });
         }
     }) 
