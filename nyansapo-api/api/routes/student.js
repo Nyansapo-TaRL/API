@@ -118,7 +118,23 @@ router.get('/:studentId', checkAuth, (req, res, next) =>{
 });
 
 // PATCH: update student info
-router.patch('/:studentId', checkAuth, (req, res, next) =>{
+router.patch('/learning_level', (req, res, next) =>{
+
+    const id = req.body.student_id; // get from body
+    const learning_level = req.body.learning_level;
+
+    Student.update({_id: id}, {learning_level: learning_level}) // update the params with request values
+    .exec()
+    .then(result => {
+        console.log(result);
+        res.status(200).json(result);
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json({
+            message:err
+        })
+    });
 
 });
 

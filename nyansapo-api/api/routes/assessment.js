@@ -61,6 +61,34 @@ router.post('/', (req, res, next) => {
     });
 });
 
+// PATCH: update intructor info
+router.patch('/', (req, res, next) =>{
+
+    //const id = req.params.instructorId; // get the id
+
+    const id = req.body.assessment_id; // get from body
+
+
+    const updateOps = {};  // get all params that need to be updated
+    for (const ops of req.body.updates){
+        updateOps[ops.propName] = ops.value;  
+    }
+
+    Assessment.update({_id: id}, {$set: updateOps}) // update the params with request values
+    .exec()
+    .then(result => {
+        console.log(result);
+        res.status(200).json(result);
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json({
+            message:err
+        })
+    });
+ 
+});
+
 // GET a specific assessment info from database
 router.get('/:assessmentId', (req, res, next) =>{
 
