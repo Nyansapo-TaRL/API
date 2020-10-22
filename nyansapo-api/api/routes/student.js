@@ -140,8 +140,10 @@ router.patch('/learning_level', (req, res, next) =>{
 
 
 // DELETE: remove a student 
-router.delete('/:studentId', checkAuth, (req, res, next) =>{
-    const id = req.params.studentId;
+router.delete('/', checkAuth, (req, res, next) =>{
+
+    const id = req.body.student_id; // get id from params
+
     Student.remove({_id: id})
     .exec()
     .then(result => {
